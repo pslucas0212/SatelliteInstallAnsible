@@ -106,4 +106,7 @@ in sat-build dir
 ---
 satellite:
   logical_volumes: []
+  
+  
+  df -hT | egrep -v tempfs
 
