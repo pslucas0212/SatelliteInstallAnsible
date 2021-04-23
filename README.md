@@ -1,26 +1,29 @@
 # DRAFT - Installing Statellite with Ansible - DRAFT
 
-Update 2021-04-22
+Update 2021-04-23
 
 ## Pre-reqs
 
-- Add these aliases to your bash.rc file to the bottom
-alias a='ansible'
-alias ad='ansible-doc'
-alias ag='ansible-galaxy'
-alias ap='ansible-playbook'
-alias av='ansible-vault'
-vi ~/.bashrc
+- Add these aliases to your bash.rc file at the bottom
+            
+      # vi ~/.bashrc
+      
+      alias a='ansible'
+      alias ad='ansible-doc'
+      alias ag='ansible-galaxy'
+      alias ap='ansible-playbook'
+      alias av='ansible-vault'
 
 - load aliases
+      
       # .  ~/.bashrc
-edit .vimrc
 
-- Set vi identation levels
-vi ~/.vimrc add these lines
+- edit .vimrc and add the following lines.  The shows visually the identation levels which helpful for editing yaml files
 
-autocmd FileType yaml setlocal ai ts=2 sw=2 et cursorcolumn
-autocmd FileType yml setlocal ai ts=2 sw=2 et cursorcolumn
+      # vi ~/.vimrc
+
+      autocmd FileType yaml setlocal ai ts=2 sw=2 et cursorcolumn
+      autocmd FileType yml setlocal ai ts=2 sw=2 et cursorcolumn
 
 
 - Generate SSH key for Ansible to login in to the target Satellite server
@@ -36,53 +39,59 @@ autocmd FileType yml setlocal ai ts=2 sw=2 et cursorcolumn
       # mkdir src
       # cd src
       # mkdir sat-build
-      # cp /etc/ansible-cf
+      # cp /etc/ansible-cfg
       # mkdir inventory
       # vi ~/src/etc/inventory
 
-- Add the following information to the inventory file
-[satellite]
-sat01
+- Create and add the following information to the inventory file. 
 
+      [satellite]
+      sat01
 
-Yum module install python36 (may be there alredy)
-test python3
+- You can now test your ansible enginge and connectivity to the target install server for Satellite. Run the command from the ~/sat-build dir
 
-from sat-build directory
-ansible Satellite -m ping
+      # ansible Satellite -m ping
 
-mkdir collections (under sat-buid dir)
+- Create a collections directory under the sat-buid dir
 
-cd collections
+      # mkdir collections 
+      # cd collectoins
 
-vi requirements.yml
----
-collections:
-  - name: jjaswanson4.setup_rhel_for_satellite
-    source: https://galaxy.ansible.com
-  - name: jjaswanson4.install_satellite
-    source: https://galaxy.ansible.com
-  - name: jjaswanson4.configure_satellite
-    source: https://galaxy.ansible.com
-  - name: ansible.posix
-    source: https://galaxy.ansible.com
-    
-    
-  cd .. (back to sat-build dir)
+- Create a requirements.yml file to ???
+
+      # vi requirements.yml
+      
+  - Add the following content to the requirements.yml file
+
+            ---
+            collections:
+              - name: jjaswanson4.setup_rhel_for_satellite
+                source: https://galaxy.ansible.com
+              - name: jjaswanson4.install_satellite
+                source: https://galaxy.ansible.com
+              - name: jjaswanson4.configure_satellite
+                source: https://galaxy.ansible.com
+              - name: ansible.posix
+               source: https://galaxy.ansible.com
+   
+  - Go back to the sat-build dir
   
+            # cd ..
   
+- Install the collections
+
       # ag collection install -r collections/requirements.yml 
       
 - Installed collections (roles, variables, modules) in root directory as a system-wide location
 
       # ls ~/.ansible/collections
 
-in sat-build dir 
+In the sat-buid dir create the following file 
 
     # vi 01-validate-rhel.yml
     
     
-- Add the follwing to the 01-validate-rhel.yml file
+  - Add the follwing to the 01-validate-rhel.yml file
 
 ---
 
@@ -99,7 +108,9 @@ in sat-build dir
   roles:
     - jjaswanson4.setup_rhel_for_satellite.validate_rhel
 
+
 - In the ~/sat-build directory create a vars file
+      
       # vi vars
       
   - Add following content the vars file
@@ -108,5 +119,14 @@ satellite:
   logical_volumes: []
   
   
+  
+  
+  
   df -hT | egrep -v tempfs
+  
+  
+ ## Notes if you are installing with AWX and not the Red Hat Ansible Automation Platform
+ 
+  Yum module install python36 (may be there alredy)
+test python3
 
