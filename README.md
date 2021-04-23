@@ -39,11 +39,23 @@ Update 2021-04-23
       # mkdir src
       # cd src
       # mkdir sat-build
-      # cp /etc/ansible-cfg
+      # cd sat-build
+      # cp /etc/ansible/ansible.cfg .
+      
+- Edit ansible.cfg
+
+      # vi ansible.cfg
+     
+  - Add the following line to the ansible.cfg file
+
+            inventory = ~/src/sat-build/inventory
+  
+- create an invenotry directory in the sat-buid dir and create an inventory file
+  
       # mkdir inventory
       # vi ~/src/etc/inventory
 
-- Create and add the following information to the inventory file. 
+  - Add the following information to the inventory file. 
 
       [satellite]
       sat01
