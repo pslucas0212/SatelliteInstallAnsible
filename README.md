@@ -57,8 +57,8 @@ Update 2021-04-23
 
   - Add the following information to the inventory file. 
 
-      [satellite]
-      sat01
+        [satellite]
+        sat01
 
 - You can now test your ansible enginge and connectivity to the target install server for Satellite. Run the command from the ~/sat-build dir
 
