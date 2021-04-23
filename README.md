@@ -48,7 +48,7 @@ Update 2021-04-23
      
   - Add the following line to the ansible.cfg file
 
-            inventory = ~/src/sat-build/inventory
+           inventory = ~/src/sat-build/inventory
   
 - create an invenotry directory in the sat-buid dir and create an inventory file
   
